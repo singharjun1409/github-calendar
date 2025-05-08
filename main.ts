@@ -11,9 +11,11 @@ serve(async (req) => {
   try {
     const res = await fetch(`https://github.com/users/${username}/contributions`, {
       headers: {
-        "User-Agent": "Mozilla/5.0", // This is the key fix
+        "User-Agent": "Mozilla/5.0", // Pretend it's a browser
+        "Accept": "text/html,application/xhtml+xml",
       },
     });
+
     const html = await res.text();
 
     return new Response(html, {
@@ -22,7 +24,7 @@ serve(async (req) => {
         "Access-Control-Allow-Origin": "*",
       },
     });
-  } catch (err) {
+  } catch {
     return new Response("Failed to fetch GitHub contributions", { status: 500 });
   }
 });
